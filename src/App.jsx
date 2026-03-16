@@ -38,11 +38,17 @@ function rowToCSV(cells) {
   return cells.map(escapeCSV).join(',')
 }
 
+// Tab-separated — pastes correctly across columns in Excel
+function rowToTSV(cells) {
+  return cells.map(c => String(c ?? '').replace(/\t/g, ' ')).join('\t')
+}
+
 function App() {
   const [dataRow, setDataRow] = useState('')
   const [headerRow, setHeaderRow] = useState('')
   const [count, setCount] = useState('')
   const [csvOutput, setCsvOutput] = useState('')
+  const [tsvOutput, setTsvOutput] = useState('')
   const [parsedCells, setParsedCells] = useState([])
   const [parsedHeaders, setParsedHeaders] = useState([])
   const [copied, setCopied] = useState(false)
@@ -83,25 +89,33 @@ function App() {
     const sep = detectSeparator(dataRow)
     const cells = parseRow(dataRow, sep)
     const csvDataRow = rowToCSV(cells)
+    const tsvDataRow = rowToTSV(cells)
 
-    const lines = []
+    const csvLines = []
+    const tsvLines = []
     if (headerRow.trim()) {
       const hSep = detectSeparator(headerRow)
       const hCells = parseRow(headerRow, hSep)
-      lines.push(rowToCSV(hCells))
+      csvLines.push(rowToCSV(hCells))
+      tsvLines.push(rowToTSV(hCells))
     }
-    for (let i = 0; i < n; i++) lines.push(csvDataRow)
+    for (let i = 0; i < n; i++) {
+      csvLines.push(csvDataRow)
+      tsvLines.push(tsvDataRow)
+    }
 
-    setCsvOutput(lines.join('\n'))
+    setCsvOutput(csvLines.join('\n'))
+    setTsvOutput(tsvLines.join('\n'))
   }, [dataRow, headerRow, count])
 
+  // Copy TSV — pastes into Excel spreading across columns correctly
   const copyToClipboard = useCallback(() => {
-    if (!csvOutput) return
-    navigator.clipboard.writeText(csvOutput).then(() => {
+    if (!tsvOutput) return
+    navigator.clipboard.writeText(tsvOutput).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     })
-  }, [csvOutput])
+  }, [tsvOutput])
 
   const downloadCSV = useCallback(() => {
     if (!csvOutput) return
@@ -115,7 +129,7 @@ function App() {
   }, [csvOutput])
 
   const reset = useCallback(() => {
-    setDataRow(''); setHeaderRow(''); setCount(''); setCsvOutput('')
+    setDataRow(''); setHeaderRow(''); setCount(''); setCsvOutput(''); setTsvOutput('')
     setParsedCells([]); setParsedHeaders([]); setError(''); setCopied(false)
   }, [])
 
@@ -130,7 +144,7 @@ function App() {
           <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center text-white font-bold text-sm">E</div>
           <div>
             <h1 className="text-lg font-semibold text-white leading-tight">Excel Row Duplicator</h1>
-            <p className="text-xs text-gray-400">Paste a row, set a count, export as CSV</p>
+            <p className="text-xs text-gray-400">Paste a row, set a count — copy directly into Excel or download as CSV</p>
           </div>
         </div>
       </header>
@@ -263,7 +277,7 @@ function App() {
                     onClick={copyToClipboard}
                     className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition ${copied ? 'bg-green-700 text-green-100' : 'bg-gray-700 hover:bg-gray-600 text-gray-200'}`}
                   >
-                    {copied ? 'Copied!' : 'Copy'}
+                    {copied ? 'Copied!' : 'Copy for Excel'}
                   </button>
                   <button
                     onClick={downloadCSV}
@@ -279,7 +293,10 @@ function App() {
                 rows={12}
                 value={csvOutput}
               />
-              <p className="text-xs text-gray-500">You can copy this text and paste it into a blank spreadsheet, or download the <code className="bg-gray-800 px-1 rounded">.csv</code> file and open it in Excel.</p>
+              <div className="bg-gray-800 rounded-xl px-4 py-3 text-xs text-gray-400 flex flex-col gap-1">
+                <p><span className="text-green-400 font-semibold">Copy for Excel</span> — copies tab-separated values. Select a cell in your existing sheet and press Ctrl+V. Each value will land in its own column.</p>
+                <p><span className="text-violet-400 font-semibold">Download .csv</span> — saves a .csv file you can open directly in Excel as a new spreadsheet.</p>
+              </div>
             </div>
           ) : (
             <div className="bg-gray-900 rounded-2xl border border-dashed border-gray-700 p-10 flex flex-col items-center justify-center text-center gap-3 flex-1 min-h-48">
