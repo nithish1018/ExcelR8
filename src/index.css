@@ -17,3 +17,292 @@ body {
 #root {
   min-height: 100vh;
 }
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+@keyframes csv-sheet-row-fill {
+  0% {
+    width: 0%;
+    opacity: 0.35;
+  }
+
+  45% {
+    width: 100%;
+    opacity: 1;
+  }
+
+  100% {
+    width: 100%;
+    opacity: 0.55;
+  }
+}
+
+@keyframes csv-sheet-scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.85;
+  }
+
+  90% {
+    opacity: 0.85;
+  }
+
+  100% {
+    transform: translateY(112px);
+    opacity: 0;
+  }
+}
+
+@keyframes csv-empty-arrow-nudge {
+  0% {
+    transform: translateX(0);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: translateX(-5px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 0.45;
+  }
+}
+
+@keyframes generate-focus-flash {
+  0% {
+    box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.75);
+  }
+
+  70% {
+    box-shadow: 0 0 0 14px rgba(167, 139, 250, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(167, 139, 250, 0);
+  }
+}
+
+.generate-focus-flash {
+  animation: generate-focus-flash 1.2s ease-out;
+}
+
+.csv-empty-sheet {
+  width: 230px;
+  border-radius: 12px;
+  border: 1px solid rgba(74, 222, 128, 0.28);
+  background: linear-gradient(165deg, rgba(6, 95, 70, 0.16), rgba(17, 24, 39, 0.95));
+  box-shadow: 0 14px 32px rgba(5, 46, 22, 0.35);
+  overflow: hidden;
+  position: relative;
+}
+
+.csv-empty-sheet-head {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: rgba(15, 118, 110, 0.42);
+  border-bottom: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.csv-empty-sheet-head span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(220, 252, 231, 0.85);
+  padding: 6px 0;
+  text-align: center;
+  border-right: 1px solid rgba(74, 222, 128, 0.18);
+}
+
+.csv-empty-sheet-head span:last-child {
+  border-right: 0;
+}
+
+.csv-empty-sheet-body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.csv-empty-sheet-row {
+  height: 12px;
+  border-radius: 4px;
+  background: rgba(22, 163, 74, 0.14);
+  overflow: hidden;
+  position: relative;
+}
+
+.csv-empty-sheet-row::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(74, 222, 128, 0.95), rgba(187, 247, 208, 0.88));
+  animation: csv-sheet-row-fill 1.25s ease-out infinite;
+}
+
+.csv-empty-sheet-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 26px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(110, 231, 183, 0.9), transparent);
+  animation: csv-sheet-scan 2s ease-in-out infinite;
+}
+
+.csv-empty-text {
+  max-width: 340px;
+  color: rgba(156, 163, 175, 1);
+}
+
+.csv-empty-cta {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(110, 231, 183, 0.9);
+}
+
+.csv-empty-cta-label {
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.csv-empty-cta-arrow {
+  font-size: 15px;
+  line-height: 1;
+  animation: csv-empty-arrow-nudge 1.2s ease-in-out infinite;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled * {
+    cursor: none !important;
+  }
+
+  .excelr8-cursor-ring,
+  .excelr8-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transform: translate(-100px, -100px);
+  }
+
+  .excelr8-cursor-ring {
+    width: 26px;
+    height: 26px;
+    margin-left: -13px;
+    margin-top: -13px;
+    border: 1.5px solid rgba(74, 222, 128, 0.85);
+    border-radius: 7px;
+    background: rgba(22, 101, 52, 0.12);
+    box-shadow: 0 0 0 1px rgba(187, 247, 208, 0.1), 0 0 22px rgba(74, 222, 128, 0.16);
+    transition: opacity 160ms ease, transform 170ms ease, border-color 170ms ease;
+  }
+
+  .excelr8-cursor-ring.cursor-mode-default {
+    border-color: rgba(74, 222, 128, 0.85);
+    background: rgba(22, 101, 52, 0.12);
+    box-shadow: 0 0 0 1px rgba(187, 247, 208, 0.1), 0 0 22px rgba(74, 222, 128, 0.16);
+  }
+
+  .excelr8-cursor-ring.cursor-mode-interactive {
+    border-color: rgba(125, 211, 252, 0.95);
+    background: rgba(12, 74, 110, 0.18);
+    box-shadow: 0 0 0 1px rgba(186, 230, 253, 0.22), 0 0 24px rgba(56, 189, 248, 0.32);
+  }
+
+  .excelr8-cursor-ring.cursor-mode-output {
+    border-color: rgba(253, 224, 71, 0.95);
+    background: rgba(113, 63, 18, 0.2);
+    box-shadow: 0 0 0 1px rgba(254, 240, 138, 0.25), 0 0 24px rgba(234, 179, 8, 0.34);
+  }
+
+  .excelr8-cursor-ring.cursor-mode-count {
+    border-color: rgba(196, 181, 253, 0.95);
+    background: rgba(76, 29, 149, 0.2);
+    box-shadow: 0 0 0 1px rgba(221, 214, 254, 0.24), 0 0 24px rgba(167, 139, 250, 0.36);
+  }
+
+  .excelr8-cursor-ring.cursor-active {
+    border-color: rgba(187, 247, 208, 1);
+    box-shadow: 0 0 0 1px rgba(187, 247, 208, 0.25), 0 0 28px rgba(74, 222, 128, 0.28);
+  }
+
+  .excelr8-cursor-dot {
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-top: -5px;
+    border-radius: 2px;
+    background: #bbf7d0;
+    box-shadow: 0 0 10px rgba(187, 247, 208, 0.45);
+    transition: opacity 100ms ease;
+  }
+
+  .excelr8-cursor-dot.cursor-mode-default {
+    background: #bbf7d0;
+    box-shadow: 0 0 10px rgba(187, 247, 208, 0.45);
+  }
+
+  .excelr8-cursor-dot.cursor-mode-interactive {
+    background: #bae6fd;
+    box-shadow: 0 0 12px rgba(125, 211, 252, 0.5);
+  }
+
+  .excelr8-cursor-dot.cursor-mode-output {
+    background: #fde68a;
+    box-shadow: 0 0 12px rgba(253, 224, 71, 0.5);
+  }
+
+  .excelr8-cursor-dot.cursor-mode-count {
+    background: #ddd6fe;
+    box-shadow: 0 0 12px rgba(196, 181, 253, 0.52);
+  }
+
+  .excelr8-cursor-dot::before,
+  .excelr8-cursor-dot::after {
+    content: '';
+    position: absolute;
+    background: rgba(187, 247, 208, 0.8);
+  }
+
+  .excelr8-cursor-dot::before {
+    width: 16px;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .excelr8-cursor-dot::after {
+    width: 1px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
