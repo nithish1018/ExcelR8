@@ -198,9 +198,15 @@ function App() {
     <div className="min-h-screen bg-gray-950 text-gray-100 font-sans">
       <header className="border-b border-gray-800 bg-gray-900">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center text-white font-bold text-sm">E</div>
+          <img
+            src="/favicon.svg"
+            alt="ExcelR8 logo"
+            className="w-8 h-8 rounded-lg"
+          />
           <div>
-            <h1 className="text-lg font-semibold text-white leading-tight">Excel Row Duplicator</h1>
+            <h1 className="text-2xl md:text-[1.9rem] font-bold tracking-[-0.03em] leading-none text-white" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              ExcelR8
+            </h1>
             <p className="text-xs text-gray-400">Paste one row or many rows, set a count, then copy directly into Excel or download CSV</p>
           </div>
         </div>
@@ -327,7 +333,7 @@ function App() {
           )}
 
           {csvOutput ? (
-            <div className="bg-gray-900 rounded-2xl border border-gray-800 p-5 flex flex-col gap-4 flex-1">
+            <div className="bg-gray-900 rounded-2xl border border-gray-800 p-5 flex flex-col gap-4 flex-1 min-h-[22rem] max-h-[70vh] overflow-hidden">
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-gray-200">
                   CSV Output
@@ -348,12 +354,13 @@ function App() {
                   </button>
                 </div>
               </div>
-              <textarea
-                readOnly
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-xs text-gray-300 font-mono resize-none focus:outline-none"
-                rows={12}
-                value={csvOutput}
-              />
+              <div className="flex-1 min-h-0 overflow-auto rounded-xl border border-gray-700 bg-gray-800">
+                <textarea
+                  readOnly
+                  className="w-full h-full min-h-[18rem] bg-transparent px-4 py-3 text-xs text-gray-300 font-mono resize-none focus:outline-none"
+                  value={csvOutput}
+                />
+              </div>
               <div className="bg-gray-800 rounded-xl px-4 py-3 text-xs text-gray-400 flex flex-col gap-1">
                 <p><span className="text-green-400 font-semibold">Copy for Excel</span> copies tab-separated values. Select a cell in your existing sheet and press Ctrl+V to spread values across columns.</p>
                 <p><span className="text-violet-400 font-semibold">Download .csv</span> saves a .csv file you can open directly in Excel as a new spreadsheet.</p>
