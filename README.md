@@ -1,16 +1,87 @@
-# React + Vite
+# ExcelR8
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ExcelR8 is a fast Excel data duplication tool for generating bulk rows from a small sample.
 
-Currently, two official plugins are available:
+You can paste one or more rows, choose a duplication count, and instantly produce output that is ready for:
+- direct paste into an existing Excel sheet
+- CSV download for import/open in Excel
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Project Motive
 
-## React Compiler
+Many real-world Excel workflows require repeated rows for testing, demo data, migration prep, or manual process simulation.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Doing this by hand is slow and error-prone.
 
-## Expanding the ESLint configuration
+ExcelR8 exists to remove repetitive work and help users create accurate, scalable, spreadsheet-ready data in seconds.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Primary Use Cases
+
+- QA and testing teams creating large sample datasets
+- Operations teams preparing repeat entries for process checks
+- Product demos where realistic table sizes are needed quickly
+- Data migration dry-runs with controlled duplicate data
+- Anyone needing quick bulk row generation from a single source row or multiple source rows
+
+## Key Features
+
+- Paste single or multiple rows as input
+- Supports tab-separated Excel paste and comma-separated values
+- Optional header row support (collapsed by default)
+- Quick duplication presets: 50, 100, 150, 200
+- Custom duplication count input
+- Copy for Excel (tab-separated output for proper column paste)
+- Download CSV file
+- Preview table before generation
+- Modern, responsive UI with interactive guidance and animations
+
+## How It Works
+
+1. (Optional) Add a header row if your output needs column names.
+2. Paste one or more source rows.
+3. Choose a duplicate count (preset or custom).
+4. Click Generate Data.
+5. Use either:
+- Copy for Excel to paste directly into an existing sheet
+- Download .csv to open/import as a file
+
+## Usage
+
+### Prerequisites
+
+- Node.js 18+ (recommended)
+- npm
+
+### Install
+
+```bash
+npm install
+```
+
+### Run in Development
+
+```bash
+npm run dev
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## Output Notes
+
+- Excel direct paste works best with the Copy for Excel action because it uses tab-separated values.
+- CSV download is ideal when you want to open data as a separate file in Excel.
+
+## Tech Stack
+
+- React
+- Vite
+- Tailwind CSS
